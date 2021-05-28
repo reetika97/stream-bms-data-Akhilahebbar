@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BatteryDataStreamer
 {
-    interface IBatteryInputGenerator
+   public interface IBatteryInputGenerator
     {
         BmsBattery GetBatteryInputParameters();
         double GetBatteryTemperature();
