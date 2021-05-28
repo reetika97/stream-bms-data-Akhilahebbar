@@ -9,7 +9,7 @@ namespace BatteryDataStreamer
 {
     class BatteryInputGenerator: IBatteryInputGenerator
     {
-        private readonly Random randomNumberGenerator = new Random();
+         private readonly Random randomNumberGenerator = new Random();
         public BmsBattery GetBatteryInputParameters()
         {
             BmsBattery BatteryProperties = new BmsBattery();
@@ -19,21 +19,21 @@ namespace BatteryDataStreamer
         }
         public double GetBatteryTemperature()
         {
-            double Min = Constants.MinTemperature;
-            double Max = Constants.MaxTemperature;
             Thread.Sleep(500);
-            System.Random random = new System.Random();
-            double TempValue = Math.Round((random.NextDouble() * (Max - Min) + Min),2);
+            double TempValue = GenerateRandomNumber(Constants.MinTemperature, Constants.MaxTemperature);
             return TempValue;
         }
         public double GetBatteryChargeRate()
         {
-            double Min = Constants.MinTemperature;
-            double Max = Constants.MaxTemperature;
             Thread.Sleep(500);
-            System.Random random = new System.Random();
-            double ChargeRateValue = Math.Round((random.NextDouble() * (Max - Min) + Min),2);
+            double ChargeRateValue = GenerateRandomNumber(Constants.MinChargeRate, Constants.MaxChargeRate);
             return ChargeRateValue;
+        }
+        public double GenerateRandomNumber(double minValue,double maxValue)
+        {
+            System.Random random = new System.Random();
+            double RandomValue = Math.Round((random.NextDouble() * (maxValue - minValue) + minValue), 2);
+            return RandomValue;
         }
     }
 }
