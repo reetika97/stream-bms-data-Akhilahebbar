@@ -11,5 +11,6 @@ namespace BatteryDataStreamer
         BmsBattery GetBatteryInputParameters();
         double GetBatteryTemperature();
         double GetBatteryChargeRate();
+       double GenerateRandomNumber(double minValue, double maxValue);
     }
 }
