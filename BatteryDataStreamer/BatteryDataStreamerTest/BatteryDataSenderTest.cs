@@ -1,36 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-using BatteryDataStreamer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace BatteryDataStreamerTest
+namespace BatteryDataStreamer
 {
-    [TestClass]
-    public class BatteryDataSenderTest
+    public class BatteryInputGenerator: IBatteryInputGenerator
     {
-        [TestMethod]
-        public void GetBatteryInputParameters_ValidReturnValue()
+        private readonly Random randomNumberGenerator = new Random();
+        public BmsBattery GetBatteryInputParameters()
         {
-            IBatteryInputGenerator batterygenerator = new BatteryInputGenerator();
-
-            BmsBattery result = batterygenerator.GetBatteryInputParameters();
-            Assert.IsNotNull(result);
+            BmsBattery BatteryProperties = new BmsBattery();
+            BatteryProperties.Temperature = GetBatteryTemperature();
+            BatteryProperties.ChargeRate = GetBatteryChargeRate();
+            return BatteryProperties;
         }
-
-        [TestMethod]
-        public void GetBatteryTemperature_ValidDataWithinRange()
+        public double GetBatteryTemperature()
         {
-            IBatteryInputGenerator batterygenerator = new BatteryInputGenerator();
-            BmsBattery batteryParameter = new BmsBattery();
-             batteryParameter.Temperature = batterygenerator.GetBatteryTemperature();
-            Assert.IsTrue(batteryParameter.Temperature>Constants.MinTemperature && batteryParameter.Temperature < Constants.MaxTemperature);
+            Thread.Sleep(500);
+            double TempValue = GenerateRandomNumber(Constants.MinTemperature, Constants.MaxTemperature);
+            return TempValue;
         }
-        [TestMethod]
-        public void GetBatteryChargeRate_ValidDataWithinRange()
+        public double GetBatteryChargeRate()
         {
-            IBatteryInputGenerator batterygenerator = new BatteryInputGenerator();
-            BmsBattery batteryParameter = new BmsBattery();
-            batteryParameter.ChargeRate = batterygenerator.GetBatteryChargeRate();
-            Assert.IsTrue(batteryParameter.ChargeRate > Constants.MinChargeRate && batteryParameter.ChargeRate < Constants.MaxChargeRate);
+            Thread.Sleep(500);
+            double ChargeRateValue = GenerateRandomNumber(Constants.MinChargeRate, Constants.MaxChargeRate);
+            return ChargeRateValue;
+        }
+        public double GenerateRandomNumber(double minValue,double maxValue)
+        {
+            System.Random random = new System.Random();
+            double RandomValue = Math.Round((random.NextDouble() * (maxValue - minValue) + minValue), 2);
+            return RandomValue;
         }
     }
 }
